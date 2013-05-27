@@ -29,7 +29,7 @@ ogrcmd = 'ogr2ogr -skipfailures -overwrite -f "PostgreSQL" PG:"host=%s dbname=%s
 print ogrcmd
 subprocess.call(ogrcmd, shell=True)
 
-#check if target table exists, otherwise create it
+#log the initial import into the log table, which will trigger postgres to finish the import
 
 sqlcmd = sqlconn + '-c "INSERT INTO import.importlog (targetschema, tablename) VALUES (%s,%s);"' % (targetschema, targettable)
 print sqlcmd
