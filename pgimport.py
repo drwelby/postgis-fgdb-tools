@@ -14,7 +14,12 @@ env['PGPASSWORD'] = password
 
 sqlconn = 'psql -U%s -h %s -d %s ' % (user, host, db)
 
-targetschema,targettable = target.split(".")
+try:
+    targetschema,targettable = target.split(".")
+except ValueError:
+    targetschema = "public"
+    targettable = target
+
 temptable = "import.%s" % (targettable)
 
 #ogr2ogr in overwrite mode to temp import table
@@ -26,7 +31,7 @@ subprocess.call(ogrcmd, shell=True)
 
 #check if target table exists, otherwise create it
 
-sqlcmd = sqlconn + '-c "INSERT INTO import.importlog (source, target) VALUES (%s,%s);"' % (temptable,target)
+sqlcmd = sqlconn + '-c "INSERT INTO import.importlog (targetschema, tablename) VALUES (%s,%s);"' % (targetschema, targettable)
 print sqlcmd
 subprocess.call(sqlcmd, shell=True, env=env)
 
