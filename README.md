@@ -21,8 +21,8 @@ Parts
 *triggers.sql* sets up the trigger on the import log that finishes the import.
 
 *pgimport.py* is a python batch script that imports the FGDB using ogr2ogr and then logs
-the file as imported, which triggers the db to move the import file to its
-target location.
+the file as imported, which triggers the db to copy the rows into the target
+table. 
 
 Requirements
 ---------
